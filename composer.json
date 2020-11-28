@@ -1,0 +1,27 @@
+{
+    "name": "davidiq/vehicleinfo",
+    "type": "phpbb-extension",
+    "description": "Add details for showing a list of vehicles.",
+    "homepage": "https://www.davidiq.com",
+    "version": "1.0.0-dev",
+    "time": "2020-11-15",
+    "license": "GPL-2.0-only",
+    "authors": [
+        {
+            "name": "David Colón",
+            "email": "david@davidiq.com",
+            "homepage": "https://www.davidiq.com/",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=7.3",
+        "composer/installers": "~1.0"
+    },
+    "extra": {
+        "display-name": "Vehicle Info",
+        "soft-require": {
+            "phpbb/phpbb": ">=3.3.0,<3.4.0@dev"
+        }
+    }
+}

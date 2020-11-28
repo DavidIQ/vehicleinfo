@@ -1,0 +1,11 @@
+davidiq_vehicleinfo_models:
+    path: /models/{make_id}
+    defaults: { _controller: davidiq.vehicleinfo.controller.main:handleModels }
+
+davidiq_vehicleinfo_mark_sold:
+    path: /sold/{topic_id}
+    defaults: { _controller: davidiq.vehicleinfo.controller.main:handleMarkSold }
+
+davidiq_vehicleinfo_unmark_sold:
+    path: /unsold/{topic_id}
+    defaults: { _controller: davidiq.vehicleinfo.controller.main:handleUnmarkSold }

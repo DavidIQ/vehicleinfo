@@ -1,0 +1,11 @@
+{% if postrow.S_VEHICLEINFO %}
+<p style="margin-bottom:0"><b>{{ lang('VEHICLEINFO_YEAR') ~ lang('COLON') }}</b> {{ postrow.VEHICLEINFO_YEAR }}</p>
+<p style="margin-bottom:0"><b>{{ lang('VEHICLEINFO_MAKE') ~ lang('COLON') }}</b> {{ postrow.VEHICLEINFO_MAKE }}</p>
+<p style="margin-bottom:0"><b>{{ lang('VEHICLEINFO_MODEL') ~ lang('COLON') }}</b> {{ postrow.VEHICLEINFO_MODEL }}</p>
+<p style="margin-bottom:0"><b>{{ lang('VEHICLEINFO_TYPE') ~ lang('COLON') }}</b> {{ postrow.VEHICLEINFO_TYPE }}</p>
+<p style="margin-bottom:0"><b>{{ lang('VEHICLEINFO_PRICE') ~ lang('COLON') }}</b> {{ postrow.VEHICLEINFO_PRICE }}</p>
+<p><b>{{ lang('VEHICLEINFO_SALE_DATE') ~ lang('COLON') }}</b>
+    <a href="#" data-ajax-action="{{ postrow.VEHICLEINFO_MARK_SOLD_AJAX_CALL }}" data-value="{{ TOPIC_ID }}" class="mark-sold"{% if postrow.VEHICLEINFO_SALE_DATE %} style="display:none"{% endif %}><i class="icon fa-check-square fa-fw" aria-hidden="true" style="color: green"></i>{{ lang('VEHICLEINFO_MARK_SOLD') }}</a>
+    <a href="#" data-ajax-action="{{ postrow.VEHICLEINFO_UNMARK_SOLD_AJAX_CALL }}" data-value="{{ TOPIC_ID }}" class="unmark-sold"{% if not postrow.VEHICLEINFO_SALE_DATE %} style="display:none"{% endif %}><i class="icon fa-remove fa-fw" aria-hidden="true" style="color: red"></i><span>{{ postrow.VEHICLEINFO_SALE_DATE }}</span></a>
+</p>
+{% endif %}

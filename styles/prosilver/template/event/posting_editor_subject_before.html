@@ -1,0 +1,51 @@
+{% if S_VEHICLEINFO %}
+<dl style="clear: left;">
+    <dt><label for="vi_year">{{ lang('VEHICLEINFO_YEAR') ~ lang('COLON') }}</label></dt>
+    <dd>
+        <select name="vi_year" id="vi_year" tabindex="3">
+            <option value=""></option>
+            {% for year in S_VEHICLEINFO_YEARS %}
+            <option value="{{ year }}"{% if year == VEHICLEINFO_YEAR %} selected="selected"{% endif %}>{{ year }}</option>
+            {% endfor %}
+        </select>
+    </dd>
+</dl>
+
+<dl style="clear: left;">
+    <dt><label for="vi_make">{{ lang('VEHICLEINFO_MAKE') ~ lang('COLON') }}</label></dt>
+    <dd>
+        <select name="vi_make" id="vi_make" tabindex="4" data-ajax-action="{{ VEHICLEINFO_AJAX_CALL }}" data-loading-text="{{ lang('LOADING') }}">
+            <option value=""></option>
+            {% for make in S_VEHICLEINFO_MAKES %}
+            <option value="{{ make.vehicle_make_id }}"{% if make.vehicle_make_id == VEHICLEINFO_MAKE %} selected="selected"{% endif %}>{{ make.vehicle_make_name }}</option>
+            {% endfor %}
+        </select>
+    </dd>
+</dl>
+
+<dl style="clear: left;">
+    <dt><label for="vi_model">{{ lang('VEHICLEINFO_MODEL') ~ lang('COLON') }}</label></dt>
+    <dd>
+        <select name="vi_model" id="vi_model" tabindex="5">
+            <option value="">{% if not S_VEHICLEINFO_MODELS %}{{ lang('VEHICLEINFO_SELECT_MAKE') }}{% endif %}</option>
+            {% for model in S_VEHICLEINFO_MODELS %}
+            <option value="{{ model.vehicle_model_id }}"{% if model.vehicle_model_id == VEHICLEINFO_MODEL %} selected="selected"{% endif %}>{{ model.vehicle_model_name }}</option>
+            {% endfor %}
+        </select>
+    </dd>
+</dl>
+
+<dl style="clear: left;">
+    <dt><label for="vi_type">{{ lang('VEHICLEINFO_TYPE_ENTRY') ~ lang('COLON') }}</label></dt>
+    <dd>
+        <input type="text" name="vi_type" id="vi_type" value="{{ VEHICLEINFO_TYPE }}" size="25" maxlength="25" tabindex="6" class="inputbox autowidth">
+    </dd>
+</dl>
+
+<dl style="clear: left;">
+    <dt><label for="vi_price">{{ lang('VEHICLEINFO_PRICE') ~ lang('COLON') }}</label></dt>
+    <dd>
+        <input type="text" name="vi_price" id="vi_price" value="{{ VEHICLEINFO_PRICE }}" size="10" maxlength="25" tabindex="7" class="inputbox autowidth">
+    </dd>
+</dl>
+{% endif %}

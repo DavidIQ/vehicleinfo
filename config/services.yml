@@ -1,0 +1,35 @@
+services:
+    davidiq.vehicleinfo.controller.main:
+        class: davidiq\vehicleinfo\controller\main_controller
+        arguments:
+            - '@davidiq.vehicleinfo.service'
+
+    davidiq.vehicleinfo.controller.acp:
+        class: davidiq\vehicleinfo\controller\acp_controller
+        arguments:
+            - '@config'
+            - '@language'
+            - '@log'
+            - '@request'
+            - '@template'
+            - '@user'
+
+    davidiq.vehicleinfo.service:
+        class: davidiq\vehicleinfo\service
+        arguments:
+            - '@cache'
+            - '@dbal.conn'
+            - '@user'
+            - '%core.table_prefix%'
+
+    davidiq.vehicleinfo.listener:
+        class: davidiq\vehicleinfo\event\main_listener
+        arguments:
+            - '@language'
+            - '@request'
+            - '@template'
+            - '@routing.helper'
+            - '@davidiq.vehicleinfo.service'
+            - '%core.table_prefix%topics'
+        tags:
+            - { name: event.listener }
