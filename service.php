@@ -204,6 +204,7 @@ class service
      */
     public function load_list()
     {
+        $this->template->assign_var('S_VEHICLEINFO_LIST', true);
         $sql_array = [
             'SELECT'	=> 't.*, p.*',
             'FROM'		=> [
