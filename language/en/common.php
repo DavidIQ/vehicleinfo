@@ -47,15 +47,11 @@ $lang = array_merge($lang, [
 	'VEHICLEINFO_SELECT_MAKE'   => 'Select a make first',
 	'VEHICLEINFO_ENTRY_REQUIRED'=> 'You must select a year and make or enter a subject',
 
+	'VEHICLEINFO_LIST_PAGE'			=> 'Vehicle List',
+
 	'VEHICLEINFO_HELLO'		=> 'Hello %s!',
 	'VEHICLEINFO_GOODBYE'		=> 'Goodbye %s!',
 
-	'VEHICLEINFO_EVENT'		=> ' :: Vehicleinfo Event :: ',
-
 	'ACP_VEHICLEINFO_GOODBYE'			=> 'Should say goodbye?',
 	'ACP_VEHICLEINFO_SETTING_SAVED'	=> 'Settings have been saved successfully!',
-
-	'VEHICLEINFO_PAGE'			=> 'Vehicleinfo Page',
-	'VIEWING_DAVIDIQ_VEHICLEINFO'			=> 'Viewing Vehicle Info page',
-
 ]);

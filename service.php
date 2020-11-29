@@ -24,6 +24,9 @@ class service
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
+	/** @var \phpbb\template\template */
+	protected $template;
+
 	/** @var string */
 	protected $table_prefix;
 
@@ -33,13 +36,15 @@ class service
      * @param \phpbb\cache\service $cache
      * @param \phpbb\db\driver\driver_interface $db
      * @param \phpbb\user $user
+     * @param \phpbb\template\template $template
      * @param string $table_prefix The db table prefix
      */
-	public function __construct(\phpbb\cache\service $cache, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, string $table_prefix)
+	public function __construct(\phpbb\cache\service $cache, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\template\template $template, string $table_prefix)
 	{
 	    $this->cache = $cache;
 	    $this->db = $db;
 	    $this->user = $user;
+	    $this->template = $template;
 		$this->table_prefix = $table_prefix;
 	}
 
@@ -192,5 +197,102 @@ class service
                 WHERE t.topic_id = $topic_id";
         $result = $this->db->sql_query($sql);
         $this->db->sql_freeresult($result);
+    }
+
+    /**
+     * Load the car listing
+     */
+    public function load_list()
+    {
+        $sql_array = [
+            'SELECT'	=> 't.*, p.*',
+            'FROM'		=> [
+                "{$this->table_prefix}topics"	=> 't',
+            ],
+            'LEFT_JOIN'	=> [
+                [
+                    'FROM'	=> ["{$this->table_prefix}posts" => 'p'],
+                    'ON'	=> 'p.topic_id = t.topic_id'
+                ]
+            ],
+            'WHERE'		=> 't.topic_first_post_id = p.post_id AND t.vehicle_make_id > 0 AND t.vehicle_model_id > 0',
+            'ORDER_BY'  => 't.topic_time'
+        ];
+
+        $sql = $this->db->sql_build_query('SELECT', $sql_array);
+        $result = $this->db->sql_query($sql);
+        $update_count = $vehiclelist = $attach_list = [];
+        while ($row = $this->db->sql_fetchrow($result))
+        {
+            if ($row['post_attachment'])
+            {
+                $attach_list[] = (int) $row['post_id'];
+            }
+            $vehiclelist[] = $row;
+        }
+        $this->db->sql_freeresult($result);
+
+        if (count($attach_list))
+        {
+            $sql = "SELECT *
+                FROM {$this->table_prefix}attachments
+                WHERE {$this->db->sql_in_set('post_msg_id', $attach_list)}
+                    AND in_message = 0
+                ORDER BY attach_id DESC, post_msg_id ASC";
+            $result = $this->db->sql_query($sql);
+
+            while ($row = $this->db->sql_fetchrow($result))
+            {
+                $attachments[$row['post_msg_id']][] = $row;
+            }
+            $this->db->sql_freeresult($result);
+        }
+
+        $icons = $this->cache->obtain_icons();
+
+        foreach($vehiclelist as $row)
+        {
+            $parse_flags = OPTION_FLAG_BBCODE | OPTION_FLAG_SMILIES;
+            $description = generate_text_for_display($row['post_text'], $row['bbcode_uid'], $row['bbcode_bitfield'], $parse_flags, true);
+
+            if (!empty($attachments[$row['post_id']]))
+            {
+                parse_attachments($row['forum_id'], $description, $attachments[$row['post_id']], $update_count);
+            }
+
+            $this->template->alter_block_array('vehiclelist', [
+                'TITLE'                 => $this->get_title($row, $row['topic_title']),
+                'DESCRIPTION'           => $description,
+                'POST_ICON_IMG'			=> ($row['enable_icons'] && !empty($row['icon_id'])) ? $icons[$row['icon_id']]['img'] : '',
+                'POST_ICON_IMG_WIDTH'	=> ($row['enable_icons'] && !empty($row['icon_id'])) ? $icons[$row['icon_id']]['width'] : '',
+                'POST_ICON_IMG_HEIGHT'	=> ($row['enable_icons'] && !empty($row['icon_id'])) ? $icons[$row['icon_id']]['height'] : '',
+                'POST_ICON_IMG_ALT' 	=> ($row['enable_icons'] && !empty($row['icon_id'])) ? $icons[$row['icon_id']]['alt'] : '',
+                'S_HAS_ATTACHMENTS'	    => !empty($attachments[$row['post_id']]),
+                'S_MULTIPLE_ATTACHMENTS'=> !empty($attachments[$row['post_id']]) && count($attachments[$row['post_id']]) > 1,
+                'VEHICLEINFO_YEAR'      => $row['vehicle_year'],
+                'VEHICLEINFO_MAKE'      => $this->get_make_name((int) $row['vehicle_make_id']),
+                'VEHICLEINFO_MODEL'     => $this->get_model_name((int) $row['vehicle_make_id'], (int) $row['vehicle_model_id']),
+                'VEHICLEINFO_TYPE'      => $row['vehicle_type'],
+                'VEHICLEINFO_PRICE'     => $row['vehicle_price'],
+            ]);
+
+            if (!empty($attachments[$row['post_id']]))
+            {
+                foreach ($attachments[$row['post_id']] as $attachment)
+                {
+                    $this->template->assign_block_vars('vehiclelist.attachment', array(
+                            'DISPLAY_ATTACHMENT'	=> $attachment)
+                    );
+                }
+            }
+        }
+
+        if (count($update_count))
+        {
+            $sql = "UPDATE {$this->table_prefix}attachments
+			SET download_count = download_count + 1
+			WHERE {$this->db->sql_in_set('attach_id', array_unique($update_count))}";
+            $this->db->sql_query($sql);
+        }
     }
 }

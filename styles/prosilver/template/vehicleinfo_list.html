@@ -1,0 +1,42 @@
+{% INCLUDECSS '@davidiq_vehicleinfo/vehicleinfo.css' %}
+{% include 'overall_header.html' %}
+
+{% for item in vehiclelist %}
+<div id="p{{ item.POST_ID }}" class="post {% if item.S_ROW_COUNT is odd %}bg1{% else %}bg2{% endif %}">
+    <div class="inner">
+        <div class="postbody vehiclelist">
+            <div id="post_content{{ item.POST_ID }}">
+                <h3 {% if item.S_FIRST_ROW %}class="first listing-title"{% endif %}>
+                    {% if item.POST_ICON_IMG %}
+                    <img src="{{ T_ICONS_PATH }}{{ item.POST_ICON_IMG }}" width="{{ item.POST_ICON_IMG_WIDTH }}" height="{{ item.POST_ICON_IMG_HEIGHT }}" alt="{{ item.POST_ICON_IMG_ALT }}" title="{{ item.POST_ICON_IMG_ALT }}">
+                    {% endif %}
+                    {{ item.TITLE }}
+                    <span style="float:right">{{ item.VEHICLEINFO_PRICE }}</span>
+                </h3>
+
+                <div class="content">{{ item.DESCRIPTION }}</div>
+
+                {% if item.S_HAS_ATTACHMENTS %}
+                <dl class="attachbox">
+                    <dt>
+                        {{ lang('ATTACHMENTS') }}
+                    </dt>
+                    {% for attachment in item.attachments %}
+                    <dd>{{ attachment.DISPLAY_ATTACHMENT }}</dd>
+                    {% endfor %}
+                </dl>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="back2top">
+            <a href="#top" class="top" title="{{ lang('BACK_TO_TOP') }}">
+                <i class="icon fa-chevron-circle-up fa-fw icon-gray" aria-hidden="true"></i>
+                <span class="sr-only">{{ lang('BACK_TO_TOP') }}</span>
+            </a>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+{% include 'overall_footer.html' %}

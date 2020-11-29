@@ -18,14 +18,19 @@ class main_controller
     /** @var \davidiq\vehicleinfo\service */
     protected $service;
 
+    /** @var \phpbb\controller\helper */
+    protected $helper;
+
     /**
      * Constructor
      *
-     * @param \davidiq\vehicleinfo\service $service  The extension's service object
+     * @param \davidiq\vehicleinfo\service $service The extension's service object
+     * @param \phpbb\controller\helper $helper controller helper
      */
-	public function __construct(\davidiq\vehicleinfo\service $service)
+	public function __construct(\davidiq\vehicleinfo\service $service, \phpbb\controller\helper $helper)
 	{
 		$this->service	= $service;
+		$this->helper = $helper;
 	}
 
     /**
@@ -68,5 +73,14 @@ class main_controller
         $this->service->unmark_sold($topic_id);
         $json = new \phpbb\json_response();
         $json->send([true]);
+    }
+
+    /**
+     * Controller handler for route /vehiclelist
+     */
+    public function handleList()
+    {
+        $this->service->load_list();
+        return $this->helper->render('vehicleinfo_list.html', '🚗');
     }
 }

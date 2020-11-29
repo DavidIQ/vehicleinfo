@@ -1,0 +1,12 @@
+.vehiclelist {
+    width: 100%;
+    font-size: 1.4em;
+}
+
+.vehiclelist dl.file dd {
+    display: none;
+}
+
+.listing-title {
+    width: 100%;
+}

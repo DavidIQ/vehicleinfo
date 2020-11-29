@@ -23,6 +23,7 @@ class main_listener implements EventSubscriberInterface
 	public static function getSubscribedEvents()
 	{
 		return [
+            'core.user_setup'					        => 'load_language',
 			'core.posting_modify_template_vars'		    => 'load_form',
             'core.posting_modify_submission_errors'     => 'check_errors',
             'core.submit_post_modify_sql_data'          => 'add_data',
@@ -71,6 +72,22 @@ class main_listener implements EventSubscriberInterface
 	}
 
     /**
+     * Load language
+     *
+     * @param \phpbb\event\data $event Event object
+     */
+    public function load_language(\phpbb\event\data $event)
+    {
+        $lang_set_ext = $event['lang_set_ext'];
+        $lang_set_ext[] = array(
+            'ext_name' => 'davidiq/vehicleinfo',
+            'lang_set' => 'common',
+        );
+        $event['lang_set_ext'] = $lang_set_ext;
+        $this->template->assign_var('U_VEHICLEINFO_PAGE', $this->routing_helper->route('davidiq_vehicleinfo_list'));
+    }
+
+    /**
      * Load the vehicle info posting form
      *
      * @param \phpbb\event\data $event Event object
@@ -80,7 +97,6 @@ class main_listener implements EventSubscriberInterface
         $post_data = $event['post_data'];
         if (($post_data['post_id'] ?? 0) === ($post_data['topic_first_post_id'] ?? 0))
         {
-            $this->language->add_lang('common', 'davidiq/vehicleinfo');
             $current_year = date('Y') + 1;
             $s_vehicleinfo_years = [];
             for ($y = ($current_year - 50); $y <= $current_year; $y++)
@@ -129,7 +145,6 @@ class main_listener implements EventSubscriberInterface
 
             if (empty($vehicleinfo_year) || empty($vehicleinfo_make))
             {
-                $this->language->add_lang('common', 'davidiq/vehicleinfo');
                 $error[] = $this->language->lang('VEHICLEINFO_ENTRY_REQUIRED');
             }
             $event['error'] = $error;
@@ -199,7 +214,6 @@ class main_listener implements EventSubscriberInterface
                 'VEHICLEINFO_UNMARK_SOLD_AJAX_CALL' => str_replace('/0', '/', $this->routing_helper->route('davidiq_vehicleinfo_unmark_sold', ['topic_id' => 0]))
             ]);
             $event['post_row'] = $post_row;
-            $this->language->add_lang('common', 'davidiq/vehicleinfo');
         }
     }
 

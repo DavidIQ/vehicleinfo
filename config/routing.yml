@@ -9,3 +9,8 @@ davidiq_vehicleinfo_mark_sold:
 davidiq_vehicleinfo_unmark_sold:
     path: /unsold/{topic_id}
     defaults: { _controller: davidiq.vehicleinfo.controller.main:handleUnmarkSold }
+
+davidiq_vehicleinfo_list:
+    path: /vehiclelist
+    defaults: { _controller: davidiq.vehicleinfo.controller.main:handleList }
+

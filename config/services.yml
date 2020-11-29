@@ -3,6 +3,7 @@ services:
         class: davidiq\vehicleinfo\controller\main_controller
         arguments:
             - '@davidiq.vehicleinfo.service'
+            - '@controller.helper'
 
     davidiq.vehicleinfo.controller.acp:
         class: davidiq\vehicleinfo\controller\acp_controller
@@ -20,6 +21,7 @@ services:
             - '@cache'
             - '@dbal.conn'
             - '@user'
+            - '@template'
             - '%core.table_prefix%'
 
     davidiq.vehicleinfo.listener:
