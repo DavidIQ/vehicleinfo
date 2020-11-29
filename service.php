@@ -232,6 +232,11 @@ class service
         }
         $this->db->sql_freeresult($result);
 
+        if (!count($vehiclelist))
+        {
+            trigger_error('VEHICLEINFO_NO_LISTING');
+        }
+
         if (count($attach_list))
         {
             $sql = "SELECT *

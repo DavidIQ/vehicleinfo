@@ -47,6 +47,7 @@ $lang = array_merge($lang, [
 	'VEHICLEINFO_SELECT_MAKE'   => 'Select a make first',
 	'VEHICLEINFO_ENTRY_REQUIRED'=> 'You must select a year and make or enter a subject',
 
+	'VEHICLEINFO_NO_LISTING'        => 'No current listings.',
 	'VEHICLEINFO_LIST_PAGE'			=> 'Vehicle List',
 
 	'VEHICLEINFO_HELLO'		=> 'Hello %s!',
