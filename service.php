@@ -215,7 +215,7 @@ class service
                     'ON'	=> 'p.topic_id = t.topic_id'
                 ]
             ],
-            'WHERE'		=> 't.topic_first_post_id = p.post_id AND t.vehicle_make_id > 0 AND t.vehicle_model_id > 0',
+            'WHERE'		=> 't.topic_first_post_id = p.post_id AND t.vehicle_sale_time = 0 AND t.vehicle_make_id > 0 AND t.vehicle_model_id > 0',
             'ORDER_BY'  => 't.topic_time'
         ];
 
