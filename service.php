@@ -266,9 +266,10 @@ class service
                 parse_attachments($row['forum_id'], $description, $attachments[$row['post_id']], $update_count);
             }
 
-            $this->template->alter_block_array('vehiclelist', [
+            $this->template->assign_block_vars('vehiclelist', [
                 'TITLE'                 => $this->get_title($row, $row['topic_title']),
                 'DESCRIPTION'           => $description,
+                'LISTING_ID'            => $row['post_id'],
                 'POST_ICON_IMG'			=> ($row['enable_icons'] && !empty($row['icon_id'])) ? $icons[$row['icon_id']]['img'] : '',
                 'POST_ICON_IMG_WIDTH'	=> ($row['enable_icons'] && !empty($row['icon_id'])) ? $icons[$row['icon_id']]['width'] : '',
                 'POST_ICON_IMG_HEIGHT'	=> ($row['enable_icons'] && !empty($row['icon_id'])) ? $icons[$row['icon_id']]['height'] : '',

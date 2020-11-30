@@ -5,9 +5,9 @@
 <div id="p{{ item.POST_ID }}" class="post {% if item.S_ROW_COUNT is odd %}bg1{% else %}bg2{% endif %}">
     <div class="inner">
         <div class="postbody vehiclelist">
-            <div id="listing_{{ item.POST_ID }}">
-                <h3 {% if item.S_FIRST_ROW %}class="first listing-title"{% endif %}>
-                    <a href="#listing_{{ item.POST_ID }}">
+            <div id="listing{{ item.LISTING_ID }}">
+                <h3 class="{% if item.S_FIRST_ROW %}first {% endif %}listing-title">
+                    <a href="#listing{{ item.LISTING_ID }}">
                         {% if item.POST_ICON_IMG %}
                         <img src="{{ T_ICONS_PATH }}{{ item.POST_ICON_IMG }}" width="{{ item.POST_ICON_IMG_WIDTH }}" height="{{ item.POST_ICON_IMG_HEIGHT }}" alt="{{ item.POST_ICON_IMG_ALT }}" title="{{ item.POST_ICON_IMG_ALT }}">
                         {% endif %}
@@ -23,7 +23,7 @@
                     <dt>
                         {{ lang('ATTACHMENTS') }}
                     </dt>
-                    {% for attachment in item.attachments %}
+                    {% for attachment in item.attachment %}
                     <dd>{{ attachment.DISPLAY_ATTACHMENT }}</dd>
                     {% endfor %}
                 </dl>

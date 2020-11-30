@@ -22,7 +22,6 @@ $(function() {
         const $vi_model = $('#vi_model');
         $vi_model.children('option').remove();
         $vi_model.append($("<option></option>")
-            .attr('disabled', 'disabled')
             .text($this.attr('data-loading-text') + '...')
         );
 
