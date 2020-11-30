@@ -286,8 +286,10 @@ class service
             {
                 foreach ($attachments[$row['post_id']] as $attachment)
                 {
-                    $this->template->assign_block_vars('vehiclelist.attachment', array(
-                            'DISPLAY_ATTACHMENT'	=> $attachment)
+                    $this->template->assign_block_vars('vehiclelist.attachment',
+                        [
+                            'DISPLAY_ATTACHMENT'	=> $attachment
+                        ]
                     );
                 }
             }

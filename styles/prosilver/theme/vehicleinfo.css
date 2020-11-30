@@ -1,6 +1,5 @@
 .vehiclelist {
     width: 100%;
-    font-size: 1.4em;
 }
 
 .vehiclelist dl.file dd {
@@ -9,4 +8,8 @@
 
 .listing-title {
     width: 100%;
+}
+
+.postbody.vehiclelist .inline-attachment {
+    margin-top: 5px;
 }
