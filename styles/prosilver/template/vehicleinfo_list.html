@@ -2,33 +2,26 @@
 {% include 'overall_header.html' %}
 
 {% for item in vehiclelist %}
-<div id="p{{ item.POST_ID }}" class="post {% if item.S_ROW_COUNT is odd %}bg1{% else %}bg2{% endif %}">
+<div id="listing{{ item.LISTING_ID }}" class="post {% if item.S_ROW_COUNT is odd %}bg1{% else %}bg2{% endif %}">
     <div class="inner">
         <div class="postbody vehiclelist">
-            <div id="listing{{ item.LISTING_ID }}">
-                <h3 class="{% if item.S_FIRST_ROW %}first {% endif %}listing-title">
-                    <a href="#listing{{ item.LISTING_ID }}">
-                        {% if item.POST_ICON_IMG %}
-                        <img src="{{ T_ICONS_PATH }}{{ item.POST_ICON_IMG }}" width="{{ item.POST_ICON_IMG_WIDTH }}" height="{{ item.POST_ICON_IMG_HEIGHT }}" alt="{{ item.POST_ICON_IMG_ALT }}" title="{{ item.POST_ICON_IMG_ALT }}">
-                        {% endif %}
-                        {{ item.TITLE }}
-                    </a>
-                    <span style="float:right">{{ item.VEHICLEINFO_PRICE }}</span>
-                </h3>
+            <h3 class="{% if item.S_FIRST_ROW %}first {% endif %}listing-title">
+                <a href="#listing{{ item.LISTING_ID }}">
+                    {% if item.POST_ICON_IMG %}
+                    <img src="{{ T_ICONS_PATH }}{{ item.POST_ICON_IMG }}" width="{{ item.POST_ICON_IMG_WIDTH }}" height="{{ item.POST_ICON_IMG_HEIGHT }}" alt="{{ item.POST_ICON_IMG_ALT }}" title="{{ item.POST_ICON_IMG_ALT }}">
+                    {% endif %}
+                    {{ item.TITLE }}
+                </a>
+                <span style="float:right">{{ item.VEHICLEINFO_PRICE }}</span>
+            </h3>
 
-                <div class="content">{{ item.DESCRIPTION }}</div>
+            <div class="content">{{ item.DESCRIPTION }}</div>
 
-                {% if item.S_HAS_ATTACHMENTS %}
-                <dl class="attachbox">
-                    <dt>
-                        {{ lang('ATTACHMENTS') }}
-                    </dt>
-                    {% for attachment in item.attachment %}
-                    <dd>{{ attachment.DISPLAY_ATTACHMENT }}</dd>
-                    {% endfor %}
-                </dl>
-                {% endif %}
-            </div>
+            {% if item.S_HAS_ATTACHMENTS %}
+                {% for attachment in item.attachment %}
+                {{ attachment.DISPLAY_ATTACHMENT }}
+                {% endfor %}
+            {% endif %}
         </div>
 
         <div class="back2top">

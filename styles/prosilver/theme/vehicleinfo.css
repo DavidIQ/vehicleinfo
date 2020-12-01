@@ -13,3 +13,9 @@
 .postbody.vehiclelist .inline-attachment {
     margin-top: 5px;
 }
+
+dl.file,
+div.inline-attachment dl.file {
+    max-width: 130px;
+    float: left;
+}
